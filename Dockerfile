@@ -18,7 +18,7 @@ RUN pip install -r /requirements.txt
 # DELETE TEMPORAL PACKAGES 
 RUN apk del .tmp-build-deps
 
-RUN mkdir /app
+RUN mkdir /backend_challenge
 WORKDIR /app
 COPY ./app /app
 

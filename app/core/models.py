@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
                                         PermissionsMixin
+from django.conf import settings
+from django.db.models.deletion import CASCADE
 
 # Create your models here.
 class UserManager(BaseUserManager):
@@ -29,10 +31,22 @@ class User(AbstractBaseUser, PermissionsMixin):
     """Custom user module that supports email instead of username"""
 
     email = models.EmailField(max_length=255, unique=True)
-    username = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
+
+
+class Tag(models.Model):
+    """Tags to be used for a recipe"""
+    name = models.CharField(max_length=255)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+
+    def __str__(self):
+        return self.name

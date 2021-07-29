@@ -21,9 +21,9 @@ class PublicUserApiTest(TestCase):
         """Test to create a user with valid payload"""
 
         payload = {
-            'email' : 'dario@arcus.mx',
-            'password' : 'testpass',
-            'name' : 'Test name'
+            'email': 'dario@arcus.mx',
+            'password': 'testpass',
+            'name': 'Test name'
         }
         res = self.client.post(CREATE_USER_URL, payload)
 
@@ -35,9 +35,9 @@ class PublicUserApiTest(TestCase):
     def test_user_exists(self):
         """Tying to create a user duplicate"""
         payload = {
-            'email' : 'dario@arcus.mx',
-            'password' : 'testpass',
-            'name' : 'dario'
+            'email': 'dario@arcus.mx',
+            'password': 'testpass',
+            'name': 'dario'
         }
         create_user(**payload)
         res = self.client.post(CREATE_USER_URL, payload)
@@ -47,9 +47,9 @@ class PublicUserApiTest(TestCase):
     def test_password_too_short(self):
         """Test that the usr create a secure pssword"""
         payload = {
-            'email' : 'dario@arcus.mx',
-            'password' : 'tes',
-            'name' : 'dario'
+            'email': 'dario@arcus.mx',
+            'password': 'tes',
+            'name': 'dario'
         }
         res = self.client.post(CREATE_USER_URL,payload)
 
@@ -63,8 +63,8 @@ class PublicUserApiTest(TestCase):
 
     def test_create_token_for_user(self):
         payload = {
-            'email' : 'dario@arcus.mx',
-            'password' : 'test2456587'
+            'email': 'dario@arcus.mx',
+            'password': 'test2456587'
         }
         create_user(**payload)
         res = self.client.post(TOKEN_URL, payload)
@@ -78,8 +78,8 @@ class PublicUserApiTest(TestCase):
         create_user(email= 'dario@ardcus.mx', 
                     password='testpass')
         payload = {
-            'email' : 'dario@ardcus.mx', 
-            'password' : 'wrong'
+            'email': 'dario@ardcus.mx', 
+            'password': 'wrong'
         }
         res = self.client.post(TOKEN_URL, payload)
 
@@ -88,8 +88,8 @@ class PublicUserApiTest(TestCase):
 
     def test_create_token_no_user(self):
         payload = {
-            'email' : 'dario@ardcus.mx',
-            'password' : 'dsadasd'
+            'email': 'dario@ardcus.mx',
+            'password': 'dsadasd'
         }
 
         res = self.client.post(TOKEN_URL, payload)
@@ -99,7 +99,7 @@ class PublicUserApiTest(TestCase):
 
     def test_create_missing_field(self):
         """User and password are required on the endpoint"""
-        res = self.client.post(TOKEN_URL, {'email' : 'one', 'password': ''} )
+        res = self.client.post(TOKEN_URL, {'email' : 'one', 'password': ''})
 
         self.assertNotIn('token', res.data)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
@@ -112,7 +112,7 @@ class UserManagementApiTest(TestCase):
         self.client = APIClient()
         self.user = create_user(
             email= 'dario@test.com',
-            password = '1233455543',
+            password= '1233455543',
             name= 'darius_1'
         )
 
@@ -124,7 +124,7 @@ class UserManagementApiTest(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, {
-            'email' : self.user.email,
+            'email': self.user.email,
             'name': self.user.name
         })
 
@@ -136,9 +136,9 @@ class UserManagementApiTest(TestCase):
 
     def test_user_update_test(self):
         payload = {
-            'name' : 'newname',
-            'email' : 'dario@onion.com',
-            'password' : 'newPassword123'
+            'name': 'newname',
+            'email': 'dario@onion.com',
+            'password': 'newPassword123'
         }
         print(self.user.password)
         res = self.client.patch(ME_URL, payload)

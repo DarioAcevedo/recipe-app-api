@@ -4,7 +4,8 @@ from rest_framework.permissions import IsAuthenticated
 
 
 from core.models import Tag, Ingredient, Recipe
-from .serializers import TagSerializer, IngredientSerializer, RecipeSerializer
+from .serializers import TagSerializer, IngredientSerializer, \
+                        RecipeSerializer, RecipeDetailSerializer
 
 # Create your views here.
 
@@ -47,5 +48,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
         
         return self.queryset.filter(user=self.request.user)
 
-    """Just testing the Signed commit"""
-    
+    def get_serializer_class(self):
+        """Return appropiate serializer class"""
+        if self.action == 'retrieve':
+            return RecipeDetailSerializer
+
+        return self.serializer_class
